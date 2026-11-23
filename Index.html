@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aqua Maroc | Smart Water Conservation</title>
+<style>
+:root{--navy:#082b3a;--blue:#087e9b;--cyan:#46c5d4;--mint:#dff7f2;--sand:#f4efe3;--ink:#163744;--muted:#66818a;--white:#fff;--orange:#f0a44b;--red:#d95c58}
+*{box-sizing:border-box}body{margin:0;background:#f5f8f7;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:linear-gradient(115deg,#062b3b,#087e9b 65%,#29a9b5);color:white;padding:22px max(5vw,22px) 58px}
+nav{display:flex;align-items:center;justify-content:space-between;gap:15px;max-width:1180px;margin:auto}
+.brand{font-weight:800;font-size:21px;letter-spacing:.3px}.brand span{color:#9df0df}
+.navright{display:flex;align-items:center;gap:10px}button,select{font:inherit}
+.lang{border:1px solid #ffffff80;color:white;background:#ffffff18;border-radius:10px;padding:9px 13px;cursor:pointer}
+.hero{max-width:1180px;margin:55px auto 0;display:grid;grid-template-columns:1.25fr .75fr;gap:30px;align-items:center}
+.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a9f3e6;font-weight:bold}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.04;margin:14px 0}.hero p{max-width:650px;color:#e0f4f4;line-height:1.65;font-size:16px}
+.hero-stat{background:#ffffff14;border:1px solid #ffffff35;border-radius:20px;padding:24px;backdrop-filter:blur(4px)}
+.hero-stat strong{font-size:38px;display:block}.hero-stat small{color:#d8eeee}.droplet{font-size:56px}
+main{max-width:1180px;margin:-28px auto 60px;padding:0 22px}
+.notice{background:#fff8e9;border:1px solid #f1d49a;color:#79531c;border-radius:12px;padding:13px 16px;font-size:13px;line-height:1.5;margin-bottom:22px}
+.section-title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:32px 0 15px}.section-title h2{font-size:22px;margin:0}.section-title p{color:var(--muted);font-size:13px;margin:5px 0 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{background:white;border:1px solid #e3ecea;border-radius:17px;padding:19px;box-shadow:0 5px 18px #16374408}
+.metric-label{color:var(--muted);font-size:13px}.metric{font-size:30px;font-weight:800;margin:8px 0 4px}.metric small{font-size:14px;color:var(--muted);font-weight:500}.sub{font-size:12px;color:var(--muted)}
+.panel-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}
+.control-row{display:flex;justify-content:space-between;align-items:center;margin:17px 0 8px;font-size:14px}
+input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer}
+.value{font-weight:700;color:var(--blue)}
+.action{border:0;background:var(--blue);color:white;padding:11px 15px;border-radius:10px;cursor:pointer;font-weight:700}
+.action:hover{background:#06677e}.action.secondary{background:#e5f5f4;color:#086579}.action.danger{background:#fff0ed;color:#b43d39}
+.sensor{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #edf1f0;font-size:14px}.sensor:last-child{border:0}
+.pill{font-size:11px;border-radius:30px;padding:5px 9px;background:#e5f6ed;color:#28774c;font-weight:bold}.pill.off{background:#f0f1f1;color:#68777a}.pill.alert{background:#fff0ed;color:#b43d39}
+.alertbox{margin-top:14px;border-radius:12px;background:#eaf8f5;padding:13px;color:#176454;font-size:13px;line-height:1.5}
+.alertbox.warning{background:#fff0ed;color:#a23d38}
+canvas{width:100%;height:190px;display:block}
+.regions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.region{border:1px solid #e3ecea;background:white;border-radius:14px;padding:15px;text-align:left;cursor:pointer;color:var(--ink)}
+.region.active{border:2px solid var(--blue);background:#f0fbfa}.region b{display:block;margin-bottom:6px}.region span{font-size:12px;color:var(--muted);line-height:1.4}
+.region-info{margin-top:12px;background:#eaf6f6;padding:15px;border-radius:12px;font-size:14px;line-height:1.55}
+footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
+@media(max-width:760px){.hero{grid-template-columns:1fr;margin-top:35px}.grid{grid-template-columns:1fr}.panel-grid{grid-template-columns:1fr}.regions{grid-template-columns:repeat(2,1fr)}.section-title{align-items:start;flex-direction:column}}
+
+.morocco-map-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:center}
+.map-card{background:linear-gradient(145deg,#e9f6f4,#f8fbf8);border:1px solid #dcebe7;border-radius:16px;padding:12px}
+.map-svg{width:100%;height:auto;max-height:390px;display:block}
+.map-region{cursor:pointer;stroke:#fff;stroke-width:3;transition:filter .15s,stroke-width .15s}
+.map-region:hover,.map-region.selected{filter:brightness(.91);stroke:#073c4c;stroke-width:5}
+.map-key{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);margin-top:8px}
+.map-dot{width:10px;height:10px;border-radius:50%;background:#0b8299;display:inline-block}
+@media(max-width:760px){.morocco-map-wrap{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header>
+<nav><div class="brand">AQUA <span>MAROC</span></div><div class="navright"><button class="lang" id="langBtn">Français</button></div></nav>
+<div class="hero">
+ <div><div class="eyebrow" data-en="SMART WATER • SUSTAINABLE FUTURE" data-fr="EAU INTELLIGENTE • AVENIR DURABLE">SMART WATER • SUSTAINABLE FUTURE</div>
+ <h1 data-en="Every drop<br>has a purpose." data-fr="Chaque goutte<br>a son importance.">Every drop<br>has a purpose.</h1>
+ <p data-en="A smart water conservation prototype exploring how households and communities in Morocco could monitor water use, spot possible leaks and make better choices." data-fr="Un prototype intelligent de conservation de l’eau qui montre comment les foyers et les communautés au Maroc pourraient surveiller leur consommation, repérer les fuites et faire de meilleurs choix.">A smart water conservation prototype exploring how households and communities in Morocco could monitor water use, spot possible leaks and make better choices.</p></div>
+ <div class="hero-stat"><div class="droplet">💧</div><strong data-en="Water matters" data-fr="L’eau est précieuse">Water matters</strong><small data-en="Explore the demo dashboard below" data-fr="Explorez le tableau de bord de démonstration ci-dessous">Explore the demo dashboard below</small></div>
+</div>
+</header>
+<main>
+<div class="notice"><b data-en="Prototype notice:" data-fr="Avis sur le prototype :">Prototype notice:</b> <span data-en="All readings and alerts on this page are simulated for demonstration. A real installation would need water-flow meters, leak sensors and connected IoT hardware." data-fr="Toutes les mesures et alertes de cette page sont simulées. Une vraie installation nécessiterait des débitmètres, des capteurs de fuite et du matériel IoT connecté.">All readings and alerts on this page are simulated for demonstration. A real installation would need water-flow meters, leak sensors and connected IoT hardware.</span></div>
+<div class="section-title"><div><h2 data-en="Live demo dashboard" data-fr="Tableau de bord interactif">Live demo dashboard</h2><p data-en="Change the controls to explore the prototype." data-fr="Modifiez les commandes pour explorer le prototype.">Change the controls to explore the prototype.</p></div><span class="pill">DEMO MODE</span></div>
+<div class="grid">
+ <div class="card"><div class="metric-label" data-en="Daily household use" data-fr="Consommation quotidienne du foyer">Daily household use</div><div class="metric"><span id="dailyMetric">420</span> <small>L</small></div><div class="sub" data-en="Example household reading" data-fr="Exemple de mesure pour un foyer">Example household reading</div></div>
+ <div class="card"><div class="metric-label" data-en="Water saved today" data-fr="Eau économisée aujourd’hui">Water saved today</div><div class="metric"><span id="savedMetric">80</span> <small>L</small></div><div class="sub" data-en="Compared with the demo baseline" data-fr="Par rapport à la référence de démonstration">Compared with the demo baseline</div></div>
+ <div class="card"><div class="metric-label" data-en="Sensor connection" data-fr="Connexion des capteurs">Sensor connection</div><div class="metric" style="font-size:24px" id="connectionMetric">3 / 3</div><div class="sub" data-en="Virtual sensors online" data-fr="Capteurs virtuels actifs">Virtual sensors online</div></div>
+</div>
+<div class="panel-grid" style="margin-top:15px">
+ <div class="card"><h3 data-en="Household water simulator" data-fr="Simulateur de consommation">Household water simulator</h3>
+  <div class="control-row"><label for="useSlider" data-en="Daily water use" data-fr="Consommation quotidienne">Daily water use</label><span class="value"><span id="useValue">420</span> L</span></div>
+  <input id="useSlider" type="range" min="100" max="900" step="10" value="420">
+  <div class="control-row"><label for="peopleSlider" data-en="People in household" data-fr="Personnes dans le foyer">People in household</label><span class="value" id="peopleValue">4</span></div>
+  <input id="peopleSlider" type="range" min="1" max="8" value="4">
+  <div class="alertbox" id="usageAdvice">Your demo use is 105 L per person each day. Try lowering the slider to explore how small changes affect consumption.</div>
+ </div>
+ <div class="card"><h3 data-en="Water use trend" data-fr="Évolution de la consommation">Water use trend</h3><canvas id="chart" width="520" height="220" aria-label="Simulated water use chart"></canvas><div class="sub" data-en="Illustrative weekly data • not a real sensor feed" data-fr="Données hebdomadaires illustratives • pas de mesures réelles">Illustrative weekly data • not a real sensor feed</div></div>
+</div>
+<div class="panel-grid" style="margin-top:15px">
+ <div class="card"><h3 data-en="Virtual sensor station" data-fr="Station de capteurs virtuels">Virtual sensor station</h3>
+  <div class="sensor"><span>💧 <span data-en="Flow meter" data-fr="Débitmètre">Flow meter</span></span><span><span class="pill" id="flowStatus">ONLINE</span> <button class="action secondary" onclick="toggleSensor('flow')" id="flowBtn">Turn off</button></span></div>
+  <div class="sensor"><span>🔎 <span data-en="Leak detector" data-fr="Détecteur de fuite">Leak detector</span></span><span><span class="pill" id="leakStatus">ONLINE</span> <button class="action secondary" onclick="toggleSensor('leak')" id="leakBtn">Turn off</button></span></div>
+  <div class="sensor"><span>📡 <span data-en="IoT connection" data-fr="Connexion IoT">IoT connection</span></span><span><span class="pill" id="iotStatus">ONLINE</span> <button class="action secondary" onclick="toggleSensor('iot')" id="iotBtn">Turn off</button></span></div>
+  <div class="alertbox" id="sensorMessage">All virtual sensors are connected. These are simulated statuses.</div>
+ </div>
+ <div class="card"><h3 data-en="Leak alert simulator" data-fr="Simulateur d’alerte de fuite">Leak alert simulator</h3>
+  <p class="sub" data-en="Press the button to imitate a leak detection event." data-fr="Appuyez sur le bouton pour simuler la détection d’une fuite.">Press the button to imitate a leak detection event.</p>
+  <button class="action danger" id="leakButton" onclick="simulateLeak()">Simulate a leak</button>
+  <div class="alertbox" id="leakAlert" style="margin-top:15px" data-en="No simulated leak detected." data-fr="Aucune fuite simulée détectée.">No simulated leak detected.</div>
+ </div>
+</div>
+<div class="section-title"><div><h2 data-en="Explore water challenges in Morocco" data-fr="Découvrir les défis de l’eau au Maroc">Explore water challenges in Morocco</h2><p data-en="Select a region to see an example of a local water issue." data-fr="Choisissez une région pour découvrir un exemple de problème lié à l’eau.">Select a region to see an example of a local water issue.</p></div></div>
+<div class="regions">
+ <button class="region active" onclick="chooseRegion(0,this)"><b>🏙️ Casablanca</b><span data-en="Growing urban demand" data-fr="Demande urbaine croissante">Growing urban demand</span></button>
+ <button class="region" onclick="chooseRegion(1,this)"><b>🌾 Souss-Massa</b><span data-en="Agricultural water pressure" data-fr="Pression de l’agriculture">Agricultural water pressure</span></button>
+ <button class="region" onclick="chooseRegion(2,this)"><b>⛰️ Atlas region</b><span data-en="Changing rainfall patterns" data-fr="Évolution des précipitations">Changing rainfall patterns</span></button>
+ <button class="region" onclick="chooseRegion(3,this)"><b>🏜️ Drâa-Tafilalet</b><span data-en="Dry climate and water scarcity" data-fr="Climat sec et manque d’eau">Dry climate and water scarcity</span></button>
+</div>
+<div class="region-info" id="regionInfo">Casablanca is a large urban area where growing demand makes efficient household and city water use important.</div>
+
+<div class="section-title"><div><h2 data-en="Morocco water map" data-fr="Carte de l’eau au Maroc">Morocco water map</h2><p data-en="Tap a highlighted area to explore its water challenge." data-fr="Touchez une région colorée pour découvrir son défi lié à l’eau.">Tap a highlighted area to explore its water challenge.</p></div></div>
+<div class="morocco-map-wrap">
+ <div class="map-card">
+  <svg class="map-svg" viewBox="0 0 360 430" role="img" aria-label="Schematic clickable map of Morocco">
+   <path d="M100 24 L230 32 L250 70 L235 104 L255 135 L239 169 L252 201 L228 232 L236 264 L211 294 L204 330 L178 365 L150 397 L112 384 L92 350 L78 315 L62 280 L70 243 L51 210 L66 176 L53 142 L74 111 L63 78 Z" fill="#d9e8df" stroke="#789b91" stroke-width="3"/>
+   <path class="map-region selected" id="map0" onclick="chooseMapRegion(0)" d="M100 24 L230 32 L250 70 L235 104 L180 110 L130 100 L74 111 L63 78 Z" fill="#5db8c0"/>
+   <path class="map-region" id="map1" onclick="chooseMapRegion(1)" d="M74 111 L130 100 L180 110 L190 166 L155 204 L95 198 L66 176 L53 142 Z" fill="#8acb9b"/>
+   <path class="map-region" id="map2" onclick="chooseMapRegion(2)" d="M180 110 L235 104 L255 135 L239 169 L252 201 L228 232 L180 220 L155 204 L190 166 Z" fill="#e9c36d"/>
+   <path class="map-region" id="map3" onclick="chooseMapRegion(3)" d="M95 198 L155 204 L180 220 L228 232 L236 264 L211 294 L204 330 L178 365 L150 397 L112 384 L92 350 L78 315 L62 280 L70 243 L51 210 L66 176 Z" fill="#e6a66e"/>
+   <text x="153" y="70" font-size="12" font-weight="bold" fill="#073c4c">North</text>
+   <text x="106" y="160" font-size="11" font-weight="bold" fill="#174b40">West</text>
+   <text x="194" y="184" font-size="11" font-weight="bold" fill="#604819">Atlas</text>
+   <text x="122" y="300" font-size="11" font-weight="bold" fill="#70401d">South</text>
+   <text x="179" y="420" font-size="10" fill="#66818a">Schematic map • not to scale</text>
+  </svg>
+  <div class="map-key"><span class="map-dot"></span><span data-en="Select a region on the map" data-fr="Sélectionnez une région sur la carte">Select a region on the map</span></div>
+ </div>
+ <div class="card">
+  <h3 id="mapRegionTitle">Casablanca / Northern coast</h3>
+  <div class="metric" style="font-size:19px" id="mapChallenge">Urban water demand</div>
+  <p id="mapRegionText" style="font-size:14px;line-height:1.6;color:var(--muted)">Large cities need careful planning to balance household, industry and public-service water use.</p>
+  <div class="alertbox" id="mapIdea">Smart idea: use connected meters to notice unusual water use and help people save water.</div>
+ </div>
+</div>
+
+<footer>AQUA MAROC · <span data-en="A student prototype for water awareness" data-fr="Un prototype scolaire pour sensibiliser à l’eau">A student prototype for water awareness</span></footer>
+</main>
+<script>
+let lang='en';let sensors={flow:true,leak:true,iot:true};let leakOn=false;let region=0;
+const translations={
+en:{turnOff:'Turn off',turnOn:'Turn on',online:'ONLINE',offline:'OFFLINE',simulated:'All virtual sensors are connected. These are simulated statuses.',sensorOff:'Some virtual sensors are offline. A real system would need connected hardware.',leak:'⚠️ Simulated leak detected! The system would send an alert and ask the user to check the pipe.',noLeak:'No simulated leak detected.',high:'Your demo use is relatively high. Try reducing daily use and compare the result.',low:'Nice! Your demo use is lower. Small everyday savings can add up.',mapTitle:['Casablanca / Northern coast','Souss-Massa','Atlas region','Drâa-Tafilalet'],
+mapChallenge:['Urban water demand','Agricultural water use','Rainfall and water storage','Water scarcity'],
+mapText:[
+'Large cities need careful planning to balance household, industry and public-service water use.',
+'Farming is important in this region, so efficient irrigation can help reduce water waste.',
+'Mountains help supply rivers and reservoirs. Rainfall changes can affect available water.',
+'This dry region needs careful water management and protection of local water sources.'],
+mapIdea:'Smart idea: use connected meters to notice unusual water use and help people save water.',
+region:[
+'Casablanca is a large urban area where growing demand makes efficient household and city water use important.',
+'Souss-Massa has important farming areas, so using irrigation water efficiently is especially important.',
+'The Atlas region is important for water resources. Changes in rainfall and snowmelt can affect water availability.',
+'Drâa-Tafilalet has a dry climate, making careful water use and protection of local water sources important.']},
+fr:{turnOff:'Désactiver',turnOn:'Activer',online:'ACTIF',offline:'INACTIF',simulated:'Tous les capteurs virtuels sont connectés. Ces états sont simulés.',sensorOff:'Certains capteurs virtuels sont désactivés. Un vrai système nécessiterait du matériel connecté.',leak:'⚠️ Fuite simulée détectée ! Le système enverrait une alerte et demanderait de vérifier le tuyau.',noLeak:'Aucune fuite simulée détectée.',high:'Votre consommation de démonstration est assez élevée. Essayez de la réduire et comparez le résultat.',low:'Bravo ! Votre consommation de démonstration est plus faible. Les petites économies s’additionnent.',mapTitle:['Casablanca / Côte nord','Souss-Massa','Région de l’Atlas','Drâa-Tafilalet'],
+mapChallenge:['Demande urbaine','Utilisation agricole','Pluie et stockage de l’eau','Rareté de l’eau'],
+mapText:[
+'Les grandes villes doivent équilibrer les besoins des foyers, de l’industrie et des services publics.',
+'L’agriculture est importante dans cette région. Une irrigation efficace peut réduire le gaspillage.',
+'Les montagnes alimentent les rivières et les réservoirs. Les changements de pluie peuvent affecter l’eau disponible.',
+'Cette région sèche a besoin d’une bonne gestion de l’eau et de la protection des ressources locales.'],
+mapIdea:'Idée intelligente : des compteurs connectés peuvent repérer une consommation inhabituelle et aider à économiser l’eau.',
+region:[
+'Casablanca est une grande zone urbaine où la demande croissante rend importante une utilisation efficace de l’eau.',
+'La région de Souss-Massa possède des zones agricoles importantes. Une irrigation efficace y est essentielle.',
+'La région de l’Atlas joue un rôle important dans les ressources en eau. Les changements de pluie et de neige peuvent affecter leur disponibilité.',
+'Drâa-Tafilalet a un climat sec. Il est donc important d’économiser l’eau et de protéger les ressources locales.']}
+};
+function setLanguage(){
+ document.querySelectorAll('[data-en]').forEach(el=>{el.innerHTML=el.dataset[lang]});
+ document.getElementById('langBtn').textContent=lang==='en'?'Français':'English';
+ document.getElementById('leakButton').textContent=lang==='en'?'Simulate a leak':'Simuler une fuite';
+ Object.keys(sensors).forEach(updateSensor);
+ document.getElementById('sensorMessage').textContent=Object.values(sensors).every(Boolean)?translations[lang].simulated:translations[lang].sensorOff;
+ document.getElementById('leakAlert').textContent=leakOn?translations[lang].leak:translations[lang].noLeak;
+ document.getElementById('regionInfo').textContent=translations[lang].region[region]; updateMapInfo();
+ updateUsage();
+}
+document.getElementById('langBtn').onclick=()=>{lang=lang==='en'?'fr':'en';setLanguage()};
+function updateUsage(){
+ const use=+document.getElementById('useSlider').value,people=+document.getElementById('peopleSlider').value,per=Math.round(use/people);
+ document.getElementById('useValue').textContent=use;document.getElementById('peopleValue').textContent=people;
+ document.getElementById('dailyMetric').textContent=use;
+ document.getElementById('savedMetric').textContent=Math.max(0,500-use);
+ document.getElementById('usageAdvice').textContent=per>120?translations[lang].high:translations[lang].low;
+ drawChart(use);
+}
+document.getElementById('useSlider').addEventListener('input',updateUsage);
+document.getElementById('peopleSlider').addEventListener('input',updateUsage);
+function drawChart(current){
+ const c=document.getElementById('chart'),ctx=c.getContext('2d'),w=c.width,h=c.height;
+ ctx.clearRect(0,0,w,h);ctx.strokeStyle='#e5eeee';ctx.lineWidth=1;
+ for(let i=0;i<4;i++){let y=25+i*48;ctx.beginPath();ctx.moveTo(38,y);ctx.lineTo(w-12,y);ctx.stroke()}
+ let vals=[390,440,360,470,410,455,current],max=950;
+ ctx.beginPath();vals.forEach((v,i)=>{let x=48+i*72,y=h-24-(v/max)*(h-55);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
+ ctx.strokeStyle='#07839c';ctx.lineWidth=4;ctx.stroke();
+ vals.forEach((v,i)=>{let x=48+i*72,y=h-24-(v/max)*(h-55);ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle='#36b8bd';ctx.fill()});
+ ctx.fillStyle='#66818a';ctx.font='12px Arial';['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach((d,i)=>ctx.fillText(lang==='en'?d:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'][i],40+i*72,h-5));
+}
+function updateSensor(key){
+ const status=document.getElementById(key+'Status'),btn=document.getElementById(key+'Btn');
+ status.textContent=sensors[key]?translations[lang].online:translations[lang].offline;
+ status.className='pill'+(sensors[key]?'':' off');
+ btn.textContent=sensors[key]?translations[lang].turnOff:translations[lang].turnOn;
+ document.getElementById('connectionMetric').textContent=Object.values(sensors).filter(Boolean).length+' / 3';
+}
+function toggleSensor(key){sensors[key]=!sensors[key];updateSensor(key);document.getElementById('sensorMessage').textContent=Object.values(sensors).every(Boolean)?translations[lang].simulated:translations[lang].sensorOff}
+function simulateLeak(){leakOn=!leakOn;const box=document.getElementById('leakAlert');box.textContent=leakOn?translations[lang].leak:translations[lang].noLeak;box.className='alertbox'+(leakOn?' warning':'');document.getElementById('leakButton').textContent=leakOn?(lang==='en'?'Reset simulation':'Réinitialiser'): (lang==='en'?'Simulate a leak':'Simuler une fuite')}
+function chooseRegion(i,el){region=i;document.querySelectorAll('.region').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('regionInfo').textContent=translations[lang].region[i]}
+
+function chooseMapRegion(i){
+ region=i;
+ ['map0','map1','map2','map3'].forEach((id,n)=>document.getElementById(id).classList.toggle('selected',n===i));
+ document.querySelectorAll('.region').forEach((el,n)=>el.classList.toggle('active',n===i));
+ document.getElementById('regionInfo').textContent=translations[lang].region[i];
+ updateMapInfo();
+}
+function updateMapInfo(){
+ const t=translations[lang];
+ document.getElementById('mapRegionTitle').textContent=t.mapTitle[region];
+ document.getElementById('mapChallenge').textContent=t.mapChallenge[region];
+ document.getElementById('mapRegionText').textContent=t.mapText[region];
+ document.getElementById('mapIdea').textContent=t.mapIdea;
+}
+
+updateMapInfo();
+updateUsage();Object.keys(sensors).forEach(updateSensor);
+</script>
+</body>
+</html>
